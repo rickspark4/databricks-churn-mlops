@@ -14,6 +14,9 @@ resources:
   jobs:
     churn_retraining_pipeline:
       name: churn_retraining_pipeline_cicd
+      schedule:
+        quartz_cron_expression: "0 0 0 * * ?"
+        timezone_id: "Asia/Kolkata"
       tasks:
         - task_key: retrain
           notebook_task:
