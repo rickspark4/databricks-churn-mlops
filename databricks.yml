@@ -1,0 +1,32 @@
+bundle:
+  name: databricks-churn-mlops
+
+workspace:
+  host: https://dbc-f6766e4e-45da.cloud.databricks.com
+
+sync:
+  include:
+    - src/**
+    - notebooks/**
+    - tests/**
+
+resources:
+  jobs:
+    churn_retraining_pipeline:
+      name: churn_retraining_pipeline_cicd
+      tasks:
+        - task_key: retrain
+          notebook_task:
+            notebook_path: ${workspace.file_path}/notebooks/retrain_job
+            source: WORKSPACE
+          environment_key: default
+      environments:
+        - environment_key: default
+          spec:
+            client: "3"
+
+targets:
+  prod:
+    default: true
+    workspace:
+      host: https://dbc-f6766e4e-45da.cloud.databricks.com
